@@ -30,9 +30,21 @@ function initMesh(scene) {
   return { cube: cube };
 }
 
+function initListerners(renderer, camera) {
+  window.addEventListener("resize", () => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  });
+}
+
 function init() {
   const { scene, camera, renderer, controls } = initScene();
   const meshes = initMesh(scene);
+  initListerners(renderer, camera);
   return {
     scene: scene,
     camera: camera,
