@@ -23,7 +23,7 @@ function initScene() {
   return { scene, camera, renderer, controls };
 }
 
-function initListerners(renderer, camera) {
+function initListerners(scene, camera, renderer) {
   window.addEventListener("resize", () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -31,13 +31,14 @@ function initListerners(renderer, camera) {
     renderer.setSize(width, height);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+    renderer.render(scene, camera);
   });
 }
 
 function init() {
   const { scene, camera, renderer, controls } = initScene();
   const meshes = initMeshes(scene);
-  initListerners(renderer, camera);
+  initListerners(scene, camera, renderer);
   return {
     scene: scene,
     camera: camera,
