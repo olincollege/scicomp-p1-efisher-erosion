@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
+import initMeshes from "./meshes";
+
 function initScene() {
   const scene = new THREE.Scene();
 
@@ -21,15 +23,6 @@ function initScene() {
   return { scene, camera, renderer, controls };
 }
 
-function initMesh(scene) {
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
-
-  return { cube: cube };
-}
-
 function initListerners(renderer, camera) {
   window.addEventListener("resize", () => {
     const width = window.innerWidth;
@@ -43,7 +36,7 @@ function initListerners(renderer, camera) {
 
 function init() {
   const { scene, camera, renderer, controls } = initScene();
-  const meshes = initMesh(scene);
+  const meshes = initMeshes(scene);
   initListerners(renderer, camera);
   return {
     scene: scene,
