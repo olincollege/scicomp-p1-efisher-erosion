@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-import initMeshes from "./meshes";
+import { initMeshes } from "./meshes";
+import initGui from "./gui";
 
 function initScene() {
   const scene = new THREE.Scene();
@@ -37,14 +38,18 @@ function initListerners(scene, camera, renderer) {
 
 function init() {
   const { scene, camera, renderer, controls } = initScene();
-  const meshes = initMeshes(scene);
+  const settings = initGui();
+
+  const meshes = initMeshes(scene, settings);
   initListerners(scene, camera, renderer);
+
   return {
     scene: scene,
     camera: camera,
     renderer: renderer,
     controls: controls,
     meshes: meshes,
+    settings: settings,
   };
 }
 

@@ -1,37 +1,70 @@
 import * as THREE from "three";
-
 import { createNoise2D } from "simplex-noise";
+import alea from "alea";
 
-import { vertexShader } from "./vertex_shaders";
 import { fragmentShader } from "./fragment_shaders";
+import { vertexShader } from "./vertex_shaders";
 
-export default function initMeshes(scene) {
-  const plane = buildTerrain(100, 100, 256);
-  scene.add(plane);
-  return { plane: plane };
-}
+let scene;
+let meshes = {};
+let terrainSettings;
+let initialized = false;
 
-function buildTerrain(width, height, resolution) {
-  const geometry = new THREE.PlaneGeometry(
-    width,
-    height,
-    resolution,
-    resolution
-  );
-
-  const noiseFunc = createNoise2D();
-  const pos = geometry.attributes.position.array;
+function genNoise(settings, pos) {
+  const noiseFunc = createNoise2D(alea(settings["Seed"]));
   const noise = [];
   for (let i = 0; i < pos.length; i += 3) {
-    noise.push(noiseFunc(pos[i] / 25, pos[i + 1] / 25) * 10);
+    noise.push(
+      noiseFunc(
+        pos[i] * settings["Size"] * settings["Frequency"],
+        pos[i + 1] * settings["Size"] * settings["Frequency"]
+      ) * settings["Amplitude"]
+    );
   }
-  const noiseAttr = new Float32Array(noise);
-  geometry.setAttribute(
-    "displacement",
-    new THREE.BufferAttribute(noiseAttr, 1)
+  return noise;
+}
+
+function updateTerrain(settings) {
+  if (!initialized) {
+    return;
+  }
+
+  const mesh = meshes.plane;
+
+  mesh.scale.set(settings["Size"], settings["Size"]);
+
+  const displacement = mesh.geometry.attributes.displacement.array;
+  const noise = genNoise(settings, mesh.geometry.attributes.position.array);
+  for (let i = 0; i < displacement.length; i++) {
+    displacement[i] = noise[i];
+  }
+  mesh.geometry.attributes.displacement.needsUpdate = true;
+
+  terrainSettings = { ...settings };
+}
+
+function buildTerrain(settings) {
+  const geometry = new THREE.PlaneGeometry(1, 1, 512, 512);
+
+  const noise = new Float32Array(
+    genNoise(settings, geometry.attributes.position.array)
   );
+  geometry.setAttribute("displacement", new THREE.BufferAttribute(noise, 1));
 
   const material = new THREE.ShaderMaterial({ vertexShader, fragmentShader });
   const plane = new THREE.Mesh(geometry, material);
-  return plane;
+  plane.scale.set(settings["Size"], settings["Size"]);
+
+  scene.add(plane);
+  meshes.plane = plane;
+  terrainSettings = { ...settings };
 }
+
+function initMeshes(scene_, settings) {
+  scene = scene_;
+  initialized = true;
+  buildTerrain(settings.terrain);
+  return meshes;
+}
+
+export { initMeshes, updateTerrain };
