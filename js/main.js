@@ -12,7 +12,7 @@ function initScene() {
     0.1,
     1000
   );
-  camera.position.z = 5;
+  camera.position.z = 300;
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -52,8 +52,6 @@ function animate(c) {
   requestAnimationFrame(() => {
     animate(c);
   });
-  c.meshes.cube.rotation.x += 0.01;
-  c.meshes.cube.rotation.y += 0.01;
   c.renderer.render(c.scene, c.camera);
 }
 

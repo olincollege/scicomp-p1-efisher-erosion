@@ -1,10 +1,25 @@
 import * as THREE from "three";
 
-export default function initMeshes(scene) {
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
+import { basicVertexShader } from "./vertex_shaders";
+import { basicFragmentShader } from "./fragment_shaders";
 
-  return { cube: cube };
+export default function initMeshes(scene) {
+  const plane = buildFlatSurface(scene, 100, 100, 256);
+  return { plane: plane };
+}
+
+function buildFlatSurface(scene, width, height, resolution) {
+  const geometry = new THREE.PlaneGeometry(
+    width,
+    height,
+    resolution,
+    resolution
+  );
+  const material = new THREE.ShaderMaterial({
+    vertexShader: basicVertexShader,
+    fragmentShader: basicFragmentShader,
+  });
+  const plane = new THREE.Mesh(geometry, material);
+  scene.add(plane);
+  return plane;
 }
