@@ -33,6 +33,8 @@ function updateTerrain(settings) {
 
   mesh.scale.set(settings["Size"], settings["Size"]);
 
+  mesh.material.uniforms.amplitude.value = settings["Amplitude"];
+
   const displacement = mesh.geometry.attributes.displacement.array;
   const noise = genNoise(settings, mesh.geometry.attributes.position.array);
   for (let i = 0; i < displacement.length; i++) {
@@ -51,7 +53,13 @@ function buildTerrain(settings) {
   );
   geometry.setAttribute("displacement", new THREE.BufferAttribute(noise, 1));
 
-  const material = new THREE.ShaderMaterial({ vertexShader, fragmentShader });
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      amplitude: { value: settings["Amplitude"] },
+    },
+    vertexShader,
+    fragmentShader,
+  });
   const plane = new THREE.Mesh(geometry, material);
   plane.scale.set(settings["Size"], settings["Size"]);
 
