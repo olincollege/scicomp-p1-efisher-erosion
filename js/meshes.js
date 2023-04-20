@@ -2,8 +2,8 @@ import * as THREE from "three";
 import { createNoise2D } from "simplex-noise";
 import alea from "alea";
 
-import { fragmentShader } from "./shaders/fragment_shaders";
-import { vertexShader } from "./shaders/vertex_shaders";
+import { fragmentShader } from "./shaders/fragmentShaders";
+import { vertexShader } from "./shaders/vertexShaders";
 
 let scene;
 let meshes = {};
