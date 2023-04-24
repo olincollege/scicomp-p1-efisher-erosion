@@ -43,7 +43,7 @@ function init() {
   const settings = buildGui();
 
   const meshes = buildMeshes(scene, settings);
-  const shaders = buildComputeShaders(5, 512, renderer);
+  const shaders = buildComputeShaders(renderer, settings.params);
 
   buildListerners(scene, camera, renderer);
 

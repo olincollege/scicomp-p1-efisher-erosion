@@ -11,16 +11,16 @@ import { WaterShader } from "./waterShader";
 
 const shaders = {};
 
-function buildComputeShaders(particleSize, mapSize, renderer) {
-  shaders.dir = new DirectionShader(particleSize, renderer);
-  shaders.pos = new PositionShader(particleSize, renderer);
-  shaders.hDiff = new HeightDifferenceShader(particleSize, renderer);
+function buildComputeShaders(renderer, params) {
+  shaders.dir = new DirectionShader(params.droplets, renderer, params);
+  shaders.pos = new PositionShader(params.droplets, renderer, params);
+  shaders.hDiff = new HeightDifferenceShader(params.droplets, renderer, params);
 
-  shaders.dep = new DepositionShader(particleSize, renderer);
-  shaders.hMap = new HeightMapShader(mapSize, renderer);
+  shaders.dep = new DepositionShader(params.droplets, renderer, params);
+  shaders.hMap = new HeightMapShader(params.mapSize, renderer, params);
 
-  shaders.water = new WaterShader(particleSize, renderer);
-  shaders.vel = new VelocityShader(particleSize, renderer);
+  shaders.water = new WaterShader(params.droplets, renderer, params);
+  shaders.vel = new VelocityShader(params.droplets, renderer, params);
 
   return shaders;
 }

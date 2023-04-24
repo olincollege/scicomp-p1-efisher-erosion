@@ -2,7 +2,9 @@ import * as THREE from "three";
 import { GPUComputationRenderer } from "three/addons/misc/GPUComputationRenderer.js";
 
 export default class ComputeShader {
-  constructor(size, renderer) {
+  constructor(size, renderer, params) {
+    this.params = params;
+
     const compute = new GPUComputationRenderer(size, size, renderer);
 
     const texture = compute.createTexture();
