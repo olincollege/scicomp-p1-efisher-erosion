@@ -1,6 +1,5 @@
 const status = { running: false, step: 0 };
-
-function loop() {}
+let display;
 
 function start() {
   status.running = true;
@@ -20,7 +19,7 @@ function step() {
     return;
   }
 
-  console.log("Stepping!");
+  status.step += 1;
 }
 
-export { start, stop, reset, step };
+export { status, start, stop, reset, step };
