@@ -3,10 +3,8 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 import { buildGui } from "./gui";
 import { buildMeshes } from "./meshes";
-import {
-  buildComputeShaders,
-  renderComputeShaders,
-} from "./shaders/computeShaders/shaders";
+import { buildComputeShaders } from "./shaders/computeShaders/shaders";
+import { step } from "./sim";
 
 function buildScene() {
   const scene = new THREE.Scene();
@@ -64,8 +62,7 @@ function animate(c) {
   requestAnimationFrame(() => {
     animate(c);
   });
-
-  renderComputeShaders();
+  step();
   c.renderer.render(c.scene, c.camera);
 }
 

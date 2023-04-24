@@ -12,7 +12,6 @@ import { WaterShader } from "./waterShader";
 const shaders = {};
 
 function buildComputeShaders(particleSize, mapSize, renderer) {
-  console.log("Building");
   shaders.dir = new DirectionShader(particleSize, renderer);
   shaders.pos = new PositionShader(particleSize, renderer);
   shaders.hDiff = new HeightDifferenceShader(particleSize, renderer);
@@ -27,7 +26,6 @@ function buildComputeShaders(particleSize, mapSize, renderer) {
 }
 
 function renderComputeShaders() {
-  console.log("Rendering");
   shaders.dir.render(shaders.hMap);
   shaders.pos.render(shaders.dir);
   shaders.hDiff.render(shaders.pos);
