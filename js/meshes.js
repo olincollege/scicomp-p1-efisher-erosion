@@ -46,19 +46,23 @@ function updateTerrain(settings) {
 }
 
 function buildTerrain(settings) {
-  const geometry = new THREE.PlaneGeometry(1, 1, 512, 512);
+  const geometry = new THREE.PlaneGeometry(1, 1, 4, 4);
 
   const noise = new Float32Array(
     genNoise(settings, geometry.attributes.position.array)
   );
   geometry.setAttribute("displacement", new THREE.BufferAttribute(noise, 1));
 
-  const material = new THREE.ShaderMaterial({
-    uniforms: {
-      amplitude: { value: settings["Amplitude"] },
-    },
-    vertexShader,
-    fragmentShader,
+  // const material = new THREE.ShaderMaterial({
+  //   uniforms: {
+  //     amplitude: { value: settings["Amplitude"] },
+  //   },
+  //   vertexShader,
+  //   fragmentShader,
+  // });
+  const material = new THREE.MeshBasicMaterial({
+    color: 0xffff00,
+    side: THREE.DoubleSide,
   });
   const plane = new THREE.Mesh(geometry, material);
   plane.scale.set(settings["Size"], settings["Size"]);

@@ -13,16 +13,17 @@ const shaders = {};
 
 function buildComputeShaders(renderer, params) {
   const droplets = Math.round(Math.sqrt(params.droplets));
+  params.shaders = shaders;
 
-  shaders.dir = new DirectionShader(droplets, renderer, params);
-  shaders.pos = new PositionShader(droplets, renderer, params);
-  shaders.hDiff = new HeightDifferenceShader(droplets, renderer, params);
+  // shaders.dir = new DirectionShader(droplets, renderer, params).init();
+  // shaders.pos = new PositionShader(droplets, renderer, params).init();
+  // shaders.hDiff = new HeightDifferenceShader(droplets, renderer, params).init();
 
-  shaders.dep = new DepositionShader(droplets, renderer, params);
-  shaders.hMap = new HeightMapShader(params.mapSize, renderer, params);
+  // shaders.dep = new DepositionShader(droplets, renderer, params).init();
+  // shaders.hMap = new HeightMapShader(params.mapSize, renderer, params).init();
 
-  shaders.water = new WaterShader(droplets, renderer, params);
-  shaders.vel = new VelocityShader(droplets, renderer, params);
+  shaders.water = new WaterShader(droplets, renderer, params).init();
+  // shaders.vel = new VelocityShader(droplets, renderer, params).init();
 
   return shaders;
 }

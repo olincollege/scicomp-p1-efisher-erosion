@@ -3,23 +3,28 @@ import { GPUComputationRenderer } from "three/addons/misc/GPUComputationRenderer
 
 export default class ComputeShader {
   constructor(size, renderer, params) {
+    this.c = new GPUComputationRenderer(size, size, renderer);
     this.params = params;
+    this.shaders = params.shaders;
+  }
 
-    const compute = new GPUComputationRenderer(size, size, renderer);
-
-    const texture = compute.createTexture();
+  init() {
+    const texture = this.c.createTexture();
     this.fill(texture);
 
-    const variable = compute.addVariable("lastFrame", this.shader(), texture);
-    compute.setVariableDependencies(variable, [variable]);
+    const variable = this.c.addVariable("lastFrame", this.shader(), texture);
+    this.c.setVariableDependencies(variable, [variable]);
 
-    const error = compute.init();
+    this.initUniforms(variable.material.uniforms, this.params, this.shaders);
+
+    const error = this.c.init();
     if (error !== null) {
       throw new Error(error);
     }
 
-    this.c = compute;
     this.v = variable;
+
+    return this;
   }
 
   fill(texture) {
@@ -35,15 +40,20 @@ export default class ComputeShader {
   }
 
   render() {
+    this.setUniforms(this.v.material.uniforms, this.params, this.shaders);
+    this.c.compute();
+  }
+
+  initUniforms() {
+    throw new Error("Not implemented!");
+  }
+
+  setUniforms() {
     throw new Error("Not implemented!");
   }
 
   shader() {
     throw new Error("Not implemented!");
-  }
-
-  uniforms() {
-    return this.v.material.uniforms;
   }
 
   newFrame() {
@@ -54,9 +64,5 @@ export default class ComputeShader {
   oldFrame() {
     // Frame to be overwritten of the two buffers. Not the most recent.
     return this.c.getCurrentRenderTarget(this.v).texture;
-  }
-
-  compute() {
-    this.c.compute();
   }
 }

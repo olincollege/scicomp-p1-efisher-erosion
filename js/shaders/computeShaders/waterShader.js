@@ -7,14 +7,19 @@ void main() {
   vec2 uv = gl_FragCoord.xy / resolution.xy;
   float oldValue = texture2D(lastFrame, uv).x;
   float newValue = oldValue * (1.0 - evaporation);
-  gl_FragColor = vec4(newValue, 0.0, 0.0, 0.0);
+  gl_FragColor = vec4(newValue, 0.0, 0.0, 1.0);
 }
 `;
 
 class WaterShader extends ComputeShader {
-  render() {
-    this.uniforms["evaporation"] = this.params["evaporation"];
-    this.compute();
+  initUniforms(uniforms, params, shaders) {
+    uniforms["evaporation"] = { value: params.evaporation };
+  }
+
+  setUniforms(uniforms, params, shaders) {
+    uniforms.evaporation.value = params.evaporation;
+    // this.params.meshes.plane.material.map = this.oldFrame();
+    // this.params.meshes.plane.material.needsUpdate = true;
   }
 
   shader() {
@@ -27,7 +32,7 @@ class WaterShader extends ComputeShader {
       arr[k + 0] = 1.0;
       arr[k + 1] = 0.0;
       arr[k + 2] = 0.0;
-      arr[k + 3] = 0.0;
+      arr[k + 3] = 1.0;
     }
   }
 }
