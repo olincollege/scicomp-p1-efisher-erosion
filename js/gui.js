@@ -22,9 +22,11 @@ function buildTerrain(gui) {
   return terrainSettings;
 }
 
-export default function buildGui() {
+function buildGui() {
   let gui = new GUI();
   let settings = {};
   settings.terrain = buildTerrain(gui);
   return settings;
 }
+
+export { buildGui };

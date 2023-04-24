@@ -1,10 +1,14 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-import { initMeshes } from "./meshes";
-import initGui from "./gui";
+import { buildGui } from "./gui";
+import { buildMeshes } from "./meshes";
+import {
+  buildComputeShaders,
+  renderComputeShaders,
+} from "./shaders/computeShaders/shaders";
 
-function initScene() {
+function buildScene() {
   const scene = new THREE.Scene();
 
   const camera = new THREE.PerspectiveCamera(
@@ -24,7 +28,7 @@ function initScene() {
   return { scene, camera, renderer, controls };
 }
 
-function initListerners(scene, camera, renderer) {
+function buildListerners(scene, camera, renderer) {
   window.addEventListener("resize", () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -37,11 +41,13 @@ function initListerners(scene, camera, renderer) {
 }
 
 function init() {
-  const { scene, camera, renderer, controls } = initScene();
-  const settings = initGui();
+  const { scene, camera, renderer, controls } = buildScene();
+  const settings = buildGui();
 
-  const meshes = initMeshes(scene, settings);
-  initListerners(scene, camera, renderer);
+  const meshes = buildMeshes(scene, settings);
+  const shaders = buildComputeShaders(5, 512, renderer);
+
+  buildListerners(scene, camera, renderer);
 
   return {
     scene: scene,
@@ -50,6 +56,7 @@ function init() {
     controls: controls,
     meshes: meshes,
     settings: settings,
+    shaders: shaders,
   };
 }
 
@@ -57,6 +64,8 @@ function animate(c) {
   requestAnimationFrame(() => {
     animate(c);
   });
+
+  renderComputeShaders();
   c.renderer.render(c.scene, c.camera);
 }
 

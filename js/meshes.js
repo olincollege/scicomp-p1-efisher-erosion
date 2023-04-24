@@ -68,11 +68,11 @@ function buildTerrain(settings) {
   terrainSettings = { ...settings };
 }
 
-function initMeshes(scene_, settings) {
-  scene = scene_;
+function buildMeshes(s, settings) {
+  scene = s;
   initialized = true;
   buildTerrain(settings.terrain);
   return meshes;
 }
 
-export { initMeshes, updateTerrain };
+export { buildMeshes, updateTerrain };
