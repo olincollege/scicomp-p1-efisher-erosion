@@ -68,23 +68,26 @@ function buildControls(gui) {
   };
 
   const controls = {
-    Start: () => {
-      toggle(false);
-      start();
-    },
-    Stop: () => {
-      stop();
-      toggle(true);
-    },
+    startStop: () => {},
     Reset: () => {
       reset();
       toggle(true);
     },
   };
   const controlsFolder = gui.addFolder("Controls");
-  controlsFolder.add(controls, "Start");
-  controlsFolder.add(controls, "Stop");
+  const startStop = controlsFolder.add(controls, "startStop").name("Start");
   controlsFolder.add(controls, "Reset");
+
+  controls.startStop = () => {
+    if (!status.running) {
+      toggle(false);
+      start();
+      startStop.name("Stop");
+    } else {
+      stop();
+      startStop.name("Start");
+    }
+  };
 }
 
 function buildDisplay() {
