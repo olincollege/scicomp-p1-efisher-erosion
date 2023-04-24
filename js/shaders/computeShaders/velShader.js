@@ -4,10 +4,10 @@ const shader = "";
 
 class VelocityShader extends ComputeShader {
   render(hDiffShader) {
-    this.uniforms["hDiff"] = hDiffShader.newFrame;
+    this.uniforms()["hDiff"] = hDiffShader.newFrame();
   }
 
-  get shader() {
+  shader() {
     return shader;
   }
 

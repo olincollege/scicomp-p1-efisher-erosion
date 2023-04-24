@@ -4,12 +4,12 @@ const shader = "";
 
 class HeightDifferenceShader extends ComputeShader {
   render(posShader) {
-    this.uniforms["oldPos"] = posShader.oldFrame;
-    this.uniforms["newPos"] = posShader.newFrame;
+    this.uniforms()["oldPos"] = posShader.oldFrame();
+    this.uniforms()["newPos"] = posShader.newFrame();
     this.compute();
   }
 
-  get shader() {
+  shader() {
     return shader;
   }
 

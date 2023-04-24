@@ -10,7 +10,7 @@ export default class ComputeShader {
     const texture = compute.createTexture();
     this.fill(texture);
 
-    const variable = compute.addVariable("shader", this.shader, texture);
+    const variable = compute.addVariable("lastFrame", this.shader(), texture);
     compute.setVariableDependencies(variable, [variable]);
 
     const error = compute.init();
@@ -38,22 +38,22 @@ export default class ComputeShader {
     throw new Error("Not implemented!");
   }
 
-  get shader() {
+  shader() {
     throw new Error("Not implemented!");
   }
 
-  get uniforms() {
+  uniforms() {
     return this.v.material.uniforms;
   }
 
-  get newFrame() {
+  newFrame() {
     // Most recently written frame of the two buffers
-    this.c.getAlternateRenderTarget(this.v).texture;
+    return this.c.getAlternateRenderTarget(this.v).texture;
   }
 
-  get oldFrame() {
+  oldFrame() {
     // Frame to be overwritten of the two buffers. Not the most recent.
-    this.c.getCurrentRenderTarget(this.v).texture;
+    return this.c.getCurrentRenderTarget(this.v).texture;
   }
 
   compute() {

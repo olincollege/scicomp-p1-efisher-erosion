@@ -4,11 +4,11 @@ const shader = "";
 
 class PositionShader extends ComputeShader {
   render(dirShader) {
-    this.uniforms["dir"] = dirShader.lastFrame;
+    this.uniforms()["dir"] = dirShader.lastFrame();
     this.compute();
   }
 
-  get shader() {
+  shader() {
     return shader;
   }
 

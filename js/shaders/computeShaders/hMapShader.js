@@ -4,11 +4,11 @@ const shader = "";
 
 class HeightMapShader extends ComputeShader {
   render(depShader) {
-    this.uniforms["dep"] = depShader.newFrame;
+    this.uniforms()["dep"] = depShader.newFrame();
     this.compute();
   }
 
-  get shader() {
+  shader() {
     return shader;
   }
 

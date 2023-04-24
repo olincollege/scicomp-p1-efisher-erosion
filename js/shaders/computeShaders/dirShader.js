@@ -4,11 +4,11 @@ const shader = "";
 
 class DirectionShader extends ComputeShader {
   render(hMapShader) {
-    this.uniforms["hMap"] = hMapShader.newFrame;
+    this.uniforms()["hMap"] = hMapShader.newFrame();
     this.compute();
   }
 
-  get shader() {
+  shader() {
     return shader;
   }
 

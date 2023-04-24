@@ -8,13 +8,13 @@ class DepositionShader extends ComputeShader {
     // Create intial conditions with 3D DataTexture
     // Fill new render targets w/ passthru vertex and fragment shaders
 
-    this.uniforms["vel"] = velShader.newFrame;
-    this.uniforms["water"] = waterShader.newFrame;
-    this.uniforms["hDiff"] = hDiffShader.newFrame;
+    this.uniforms()["vel"] = velShader.newFrame();
+    this.uniforms()["water"] = waterShader.newFrame();
+    this.uniforms()["hDiff"] = hDiffShader.newFrame();
     this.compute();
   }
 
-  get shader() {
+  shader() {
     return shader;
   }
 

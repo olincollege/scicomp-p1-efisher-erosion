@@ -1,3 +1,5 @@
+import { stepComputeShaders } from "./shaders/computeShaders/shaders";
+
 const status = { running: false, step: 0 };
 let display;
 
@@ -18,7 +20,7 @@ function step() {
   if (!status.running) {
     return;
   }
-
+  stepComputeShaders();
   status.step += 1;
 }
 
