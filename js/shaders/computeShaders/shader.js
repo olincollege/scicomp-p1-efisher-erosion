@@ -11,7 +11,6 @@ export default class ComputeShader {
   init() {
     const texture = this.c.createTexture();
     this.fill(texture, this.params);
-    this.initTexture = texture;
 
     const variable = this.c.addVariable("lastFrame", this.shader(), texture);
     this.c.setVariableDependencies(variable, [variable]);
@@ -34,8 +33,10 @@ export default class ComputeShader {
   }
 
   reset() {
-    this.c.renderTexture(this.initTexture, this.v.renderTargets[0]);
-    this.c.renderTexture(this.initTexture, this.v.renderTargets[1]);
+    const texture = this.c.createTexture();
+    this.fill(texture, this.params);
+    this.c.renderTexture(texture, this.v.renderTargets[0]);
+    this.c.renderTexture(texture, this.v.renderTargets[1]);
   }
 
   fill(texture, params) {

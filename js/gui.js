@@ -1,7 +1,7 @@
 import GUI from "lil-gui";
 
 import { updateTerrain } from "./meshes";
-import { status, reset, start, stop } from "./sim";
+import { status, reset, start, stop, update } from "./sim";
 
 const folders = [];
 
@@ -19,7 +19,7 @@ function buildTerrain(gui) {
   terrainFolder.add(terrainSettings, "Amplitude", 1, 20, 1);
   terrainFolder.open();
   terrainFolder.onChange((event) => {
-    updateTerrain(event.object);
+    update(event.object);
   });
   folders.push(terrainFolder);
 

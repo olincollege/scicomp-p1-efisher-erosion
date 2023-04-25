@@ -22,6 +22,11 @@ function reset() {
   resetComputeShaders();
 }
 
+function update(settings) {
+  updateTerrain(settings);
+  resetComputeShaders();
+}
+
 function step() {
   if (!status.running) {
     return;
@@ -30,4 +35,4 @@ function step() {
   status.step += 1;
 }
 
-export { status, start, stop, reset, step };
+export { status, start, stop, reset, update, step };
