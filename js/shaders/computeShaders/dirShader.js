@@ -3,7 +3,7 @@ import * as THREE from "three";
 import ComputeShader from "./shader";
 
 const shader = `
-uniform sampler2D hmap;
+uniform sampler2D hMap;
 uniform sampler2D pos;
 uniform float mapSize;
 uniform float inertia;
@@ -17,10 +17,10 @@ void main() {
   vec2 topLeft = vec2(floor(p.x), ceil(p.y));
   vec2 topRight = ceil(p);
 
-  float bottomLeftHeight = texture2D(hmap, bottomLeft / mapSize).x;
-  float bottomRightHeight = texture2D(hmap, bottomRight / mapSize).x;
-  float topLeftHeight = texture2D(hmap, topLeft / mapSize).x;
-  float topRightHeight = texture2D(hmap, topRight / mapSize).x;
+  float bottomLeftHeight = texture2D(hMap, bottomLeft / mapSize).x;
+  float bottomRightHeight = texture2D(hMap, bottomRight / mapSize).x;
+  float topLeftHeight = texture2D(hMap, topLeft / mapSize).x;
+  float topRightHeight = texture2D(hMap, topRight / mapSize).x;
 
   vec2 delta = p - bottomLeft;
   vec2 gradient = vec2(
@@ -34,6 +34,7 @@ void main() {
 
   vec2 oldDir = texture2D(lastFrame, uv).xy;
   vec2 newDir = oldDir * inertia - gradient * (1.0 - inertia);
+  newDir = normalize(newDir);
 
   gl_FragColor = vec4(newDir, 0.0, 1.0);
 }

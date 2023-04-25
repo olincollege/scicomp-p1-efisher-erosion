@@ -27,13 +27,19 @@ function buildComputeShaders(renderer, params) {
 
   shaders.dir = new DirectionShader(size, size, renderer, params, shaders);
   shaders.pos = new PositionShader(size, size, renderer, params, shaders);
-  // shaders.hDiff = new HeightDifferenceShader(n, renderer, params, shaders);
+  shaders.hDiff = new HeightDifferenceShader(
+    size,
+    size,
+    renderer,
+    params,
+    shaders
+  );
 
   // shaders.dep = new DepositionShader(droplets, renderer, params);
   shaders.hMap = new HeightMapShader(size, size, renderer, params, shaders);
 
   shaders.water = new WaterShader(size, size, renderer, params, shaders);
-  // shaders.vel = new VelocityShader(droplets, renderer, params);
+  shaders.vel = new VelocityShader(size, size, renderer, params, shaders);
 
   Object.values(shaders).forEach((shader) => {
     shader.init();
@@ -45,13 +51,13 @@ function buildComputeShaders(renderer, params) {
 function stepComputeShaders() {
   shaders.dir.render(shaders.hMap);
   shaders.pos.render(shaders.dir);
-  // shaders.hDiff.render(shaders.pos);
+  shaders.hDiff.render(shaders.pos);
 
   // shaders.dep.render(shaders.vel, shaders.water, shaders.hDiff);
   // shaders.hMap.render(shaders.dep);
 
   shaders.water.render();
-  // shaders.vel.render(shaders.hDiff);
+  shaders.vel.render(shaders.hDiff);
 }
 
 function resetComputeShaders() {

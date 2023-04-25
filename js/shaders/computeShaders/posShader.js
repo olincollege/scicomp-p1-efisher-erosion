@@ -31,8 +31,15 @@ class PositionShader extends ComputeShader {
   fill(texture, params) {
     const arr = texture.image.data;
     for (let k = 0; k < arr.length; k += 4) {
-      const x = Math.random() * params.mapSize;
-      const y = Math.random() * params.mapSize;
+      // const x = Math.random() * params.mapSize;
+      // const y = Math.random() * params.mapSize;
+      // arr[k + 0] = x;
+      // arr[k + 1] = y;
+      // arr[k + 2] = 0.0;
+      // arr[k + 3] = 1.0;
+      const idx = k / 4;
+      const x = idx % params.mapSize;
+      const y = Math.floor(idx / params.mapSize);
       arr[k + 0] = x;
       arr[k + 1] = y;
       arr[k + 2] = 0.0;
