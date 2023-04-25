@@ -9,13 +9,13 @@ function buildTerrain(gui) {
   const terrainSettings = {
     Seed: 42,
     Size: 100,
-    Frequency: 0.03,
+    Frequency: 0.01,
     Amplitude: 8,
   };
 
   const terrainFolder = gui.addFolder("Terrain");
   terrainFolder.add(terrainSettings, "Seed", 1, 100, 1);
-  terrainFolder.add(terrainSettings, "Frequency", 0.01, 0.1, 0.001);
+  terrainFolder.add(terrainSettings, "Frequency", 0.001, 0.1, 0.001);
   terrainFolder.add(terrainSettings, "Amplitude", 1, 20, 1);
   terrainFolder.open();
   terrainFolder.onChange((event) => {
@@ -28,7 +28,7 @@ function buildTerrain(gui) {
 
 function buildParameters(gui) {
   const parameters = {
-    droplets: 5,
+    droplets: 16,
     mapSize: 512,
     inertia: 0.1,
     capacity: 8,
