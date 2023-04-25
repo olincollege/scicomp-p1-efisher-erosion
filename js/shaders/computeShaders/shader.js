@@ -2,8 +2,8 @@ import * as THREE from "three";
 import { GPUComputationRenderer } from "three/addons/misc/GPUComputationRenderer.js";
 
 export default class ComputeShader {
-  constructor(size, renderer, params, shaders) {
-    this.c = new GPUComputationRenderer(size, 1, renderer);
+  constructor(x, y, renderer, params, shaders) {
+    this.c = new GPUComputationRenderer(x, y, renderer);
     this.params = params;
     this.shaders = shaders;
   }
