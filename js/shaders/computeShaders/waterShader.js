@@ -18,6 +18,8 @@ class WaterShader extends ComputeShader {
 
   setUniforms(uniforms, params, shaders) {
     uniforms.evaporation.value = params.evaporation;
+    this.params.meshes.plane.material.uniforms.hMap.value = this.oldFrame();
+    this.params.meshes.plane.material.uniforms.hMap.needsUpdate = true;
     // this.params.meshes.plane.material.map = this.oldFrame();
     // this.params.meshes.plane.material.needsUpdate = true;
   }

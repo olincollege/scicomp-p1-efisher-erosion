@@ -18,6 +18,10 @@ function updateTerrain(settings) {
     return;
   }
 
+  if (settings === undefined) {
+    settings = terrainSettings;
+  }
+
   const arr = heightMap.image.data;
   const noiseFunc = createNoise3D(alea(42));
   for (let k = 0; k < arr.length; k += 4) {
@@ -37,14 +41,13 @@ function updateTerrain(settings) {
     arr[k + 3] = 0;
   }
   heightMap.needsUpdate = true;
+  meshes.plane.material.uniforms.hMap.value = heightMap;
 
   terrainSettings = { ...settings };
 }
 
 function buildTerrain(settings) {
   const geometry = new THREE.PlaneGeometry(1, 1, SIZE, SIZE);
-  console.log(geometry);
-
   const data = new Float32Array(SIZE * SIZE * 4);
   heightMap = new THREE.DataTexture(
     data,
@@ -53,8 +56,6 @@ function buildTerrain(settings) {
     THREE.RGBAFormat,
     THREE.FloatType
   );
-  heightMap.magFilter = THREE.LinearFilter;
-  heightMap.minFilter = THREE.LinearFilter;
 
   const material = new THREE.ShaderMaterial({
     uniforms: {

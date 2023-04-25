@@ -12,18 +12,25 @@ import { WaterShader } from "./waterShader";
 const shaders = {};
 
 function buildComputeShaders(renderer, params) {
-  const droplets = Math.round(Math.sqrt(params.droplets));
-  params.shaders = shaders;
+  const size = params.droplets;
+  // shaders.dir = new DirectionShader(droplets, renderer, params);
+  // shaders.pos = new PositionShader(droplets, renderer, params);
+  // shaders.hDiff = new HeightDifferenceShader(
+  //   params.droplets,
+  //   renderer,
+  //   params,
+  //   shaders
+  // );
 
-  // shaders.dir = new DirectionShader(droplets, renderer, params).init();
-  // shaders.pos = new PositionShader(droplets, renderer, params).init();
-  // shaders.hDiff = new HeightDifferenceShader(droplets, renderer, params).init();
+  // shaders.dep = new DepositionShader(droplets, renderer, params);
+  // shaders.hMap = new HeightMapShader(params.mapSize, renderer, params);
 
-  // shaders.dep = new DepositionShader(droplets, renderer, params).init();
-  // shaders.hMap = new HeightMapShader(params.mapSize, renderer, params).init();
+  shaders.water = new WaterShader(size, renderer, params, shaders);
+  // shaders.vel = new VelocityShader(droplets, renderer, params);
 
-  shaders.water = new WaterShader(droplets, renderer, params).init();
-  // shaders.vel = new VelocityShader(droplets, renderer, params).init();
+  Object.values(shaders).forEach((shader) => {
+    shader.init();
+  });
 
   return shaders;
 }
@@ -40,4 +47,10 @@ function stepComputeShaders() {
   // shaders.vel.render(shaders.hDiff);
 }
 
-export { buildComputeShaders, stepComputeShaders };
+function resetComputeShaders() {
+  Object.values(shaders).forEach((shader) => {
+    shader.reset();
+  });
+}
+
+export { buildComputeShaders, stepComputeShaders, resetComputeShaders };

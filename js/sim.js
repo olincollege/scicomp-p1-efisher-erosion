@@ -1,4 +1,8 @@
-import { stepComputeShaders } from "./shaders/computeShaders/shaders";
+import {
+  stepComputeShaders,
+  resetComputeShaders,
+} from "./shaders/computeShaders/shaders";
+import { updateTerrain } from "./meshes";
 
 const status = { running: false, step: 0 };
 let display;
@@ -14,6 +18,8 @@ function stop() {
 function reset() {
   status.running = false;
   status.step = 0;
+  updateTerrain();
+  resetComputeShaders();
 }
 
 function step() {

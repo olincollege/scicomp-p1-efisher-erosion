@@ -2,15 +2,16 @@ import * as THREE from "three";
 import { GPUComputationRenderer } from "three/addons/misc/GPUComputationRenderer.js";
 
 export default class ComputeShader {
-  constructor(size, renderer, params) {
-    this.c = new GPUComputationRenderer(size, size, renderer);
+  constructor(size, renderer, params, shaders) {
+    this.c = new GPUComputationRenderer(size, 1, renderer);
     this.params = params;
-    this.shaders = params.shaders;
+    this.shaders = shaders;
   }
 
   init() {
     const texture = this.c.createTexture();
     this.fill(texture);
+    this.initTexture = texture;
 
     const variable = this.c.addVariable("lastFrame", this.shader(), texture);
     this.c.setVariableDependencies(variable, [variable]);
@@ -27,28 +28,25 @@ export default class ComputeShader {
     return this;
   }
 
-  fill(texture) {
-    const arr = texture.image.data;
-    for (let k = 0; k < arr.length; k += 4) {
-      const x = Math.random();
-      const y = Math.random();
-      arr[k + 0] = x;
-      arr[k + 1] = y;
-      arr[k + 2] = 0;
-      arr[k + 3] = 0;
-    }
-  }
-
   render() {
     this.setUniforms(this.v.material.uniforms, this.params, this.shaders);
     this.c.compute();
   }
 
-  initUniforms() {
+  reset() {
+    this.c.renderTexture(this.initTexture, this.v.renderTargets[0]);
+    this.c.renderTexture(this.initTexture, this.v.renderTargets[1]);
+  }
+
+  fill(texture) {
     throw new Error("Not implemented!");
   }
 
-  setUniforms() {
+  initUniforms(uniforms, params, shaders) {
+    throw new Error("Not implemented!");
+  }
+
+  setUniforms(uniforms, params, shaders) {
     throw new Error("Not implemented!");
   }
 

@@ -69,10 +69,7 @@ function buildControls(gui) {
 
   const controls = {
     startStop: () => {},
-    Reset: () => {
-      reset();
-      toggle(true);
-    },
+    Reset: () => {},
   };
   const controlsFolder = gui.addFolder("Controls");
   const startStop = controlsFolder.add(controls, "startStop").name("Start");
@@ -87,6 +84,11 @@ function buildControls(gui) {
       stop();
       startStop.name("Start");
     }
+  };
+  controls.Reset = () => {
+    reset();
+    toggle(true);
+    startStop.name("Start");
   };
 }
 
