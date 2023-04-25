@@ -85,4 +85,4 @@ function buildMeshes(s, settings) {
   return meshes;
 }
 
-export { buildMeshes, updateTerrain };
+export { buildMeshes, updateTerrain, heightMap };

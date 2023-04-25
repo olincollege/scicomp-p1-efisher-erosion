@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { GPUComputationRenderer } from "three/addons/misc/GPUComputationRenderer.js";
 
+import { heightMap } from "../../meshes";
 import { DirectionShader } from "./dirShader";
 import { DepositionShader } from "./depShader";
 import { HeightDifferenceShader } from "./hDiffShader";
@@ -12,6 +13,7 @@ import { WaterShader } from "./waterShader";
 const shaders = {};
 
 function buildComputeShaders(renderer, params) {
+  params.heightMap = heightMap;
   const size = params.droplets;
   // shaders.dir = new DirectionShader(droplets, renderer, params);
   // shaders.pos = new PositionShader(droplets, renderer, params);

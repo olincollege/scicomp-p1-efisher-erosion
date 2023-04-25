@@ -10,7 +10,7 @@ export default class ComputeShader {
 
   init() {
     const texture = this.c.createTexture();
-    this.fill(texture);
+    this.fill(texture, this.params);
     this.initTexture = texture;
 
     const variable = this.c.addVariable("lastFrame", this.shader(), texture);
@@ -38,7 +38,7 @@ export default class ComputeShader {
     this.c.renderTexture(this.initTexture, this.v.renderTargets[1]);
   }
 
-  fill(texture) {
+  fill(texture, params) {
     throw new Error("Not implemented!");
   }
 
