@@ -14,12 +14,19 @@ void main() {
   vec2 uv = gl_FragCoord.xy / resolution.xy;
 
   float hDiff = texture2D(hDiff, uv).x;
+  float oldSediment = texture2D(lastFrame, uv).x;
+
+  if (hDiff > 0.0) {
+    float newSediment = oldSediment * (1.0 - erosion);
+    gl_FragColor = vec4(newSediment, 0.0, 0.0, 1.0);
+    return;
+  }
+
   float water = texture2D(water, uv).x;
   float vel = texture2D(vel, uv).x;
 
   float newCapacity = max(-hDiff, minSlope) * vel * water * capacity;
 
-  float oldSediment = texture2D(lastFrame, uv).x;
   float delta;
   if (oldSediment >= newCapacity) {
     delta = -(oldSediment - newCapacity) * deposition;
