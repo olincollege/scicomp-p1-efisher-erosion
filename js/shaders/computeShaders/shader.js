@@ -9,8 +9,8 @@ export default class ComputeShader {
   }
 
   init() {
-    const texture = this.c.createTexture();
-    this.fill(texture, this.params);
+    this.texture = this.c.createTexture();
+    this.fill(this.texture, this.params);
 
     const variable = this.c.addVariable("lastFrame", this.shader(), texture);
     this.c.setVariableDependencies(variable, [variable]);
@@ -23,8 +23,6 @@ export default class ComputeShader {
     }
 
     this.v = variable;
-
-    return this;
   }
 
   render() {
@@ -33,10 +31,9 @@ export default class ComputeShader {
   }
 
   reset() {
-    const texture = this.c.createTexture();
-    this.fill(texture, this.params);
-    this.c.renderTexture(texture, this.v.renderTargets[0]);
-    this.c.renderTexture(texture, this.v.renderTargets[1]);
+    this.fill(this.texture, this.params);
+    this.c.renderTexture(this.texture, this.v.renderTargets[0]);
+    this.c.renderTexture(this.texture, this.v.renderTargets[1]);
   }
 
   fill(texture, params) {
@@ -57,11 +54,11 @@ export default class ComputeShader {
 
   newFrame() {
     // Most recently written frame of the two buffers
-    return this.c.getAlternateRenderTarget(this.v).texture;
+    return this.c.getCurrentRenderTarget(this.v).texture;
   }
 
   oldFrame() {
     // Frame to be overwritten of the two buffers. Not the most recent.
-    return this.c.getCurrentRenderTarget(this.v).texture;
+    return this.c.getAlternateRenderTarget(this.v).texture;
   }
 }
