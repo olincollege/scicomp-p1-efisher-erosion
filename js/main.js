@@ -3,7 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 import { buildGui } from "./gui";
 import { buildMeshes } from "./meshes";
-import { buildComputeShaders } from "./shaders/computeShaders/shaders";
+import { initComputeShaders } from "./shaders/computeShaders/shaders";
 import { step } from "./sim";
 
 function buildScene() {
@@ -44,7 +44,7 @@ function init() {
 
   const meshes = buildMeshes(scene, settings);
   settings.params.meshes = meshes;
-  const shaders = buildComputeShaders(renderer, settings.params, meshes);
+  const shaders = initComputeShaders(renderer, settings.params, meshes);
 
   buildListerners(scene, camera, renderer);
 

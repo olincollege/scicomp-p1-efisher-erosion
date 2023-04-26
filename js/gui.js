@@ -28,9 +28,9 @@ function buildTerrain(gui) {
 
 function buildParameters(gui) {
   const parameters = {
-    droplets: 4096,
+    droplets: 1024,
     mapSize: 512,
-    inertia: 0.5,
+    inertia: 0.3,
     capacity: 8,
     deposition: 0.1,
     erosion: 0.1,
@@ -43,7 +43,9 @@ function buildParameters(gui) {
   };
 
   const paramsFolder = gui.addFolder("Parameters");
-  paramsFolder.add(parameters, "droplets", 1, 50).name("Number of Droplets");
+  paramsFolder
+    .add(parameters, "droplets", 1, 4096, 1)
+    .name("Number of Droplets");
   paramsFolder.add(parameters, "inertia", 0, 1).name("Inertia");
   paramsFolder.add(parameters, "capacity", 1, 50).name("Carry Capacity");
   paramsFolder.add(parameters, "deposition", 0, 1).name("Deposition Speed");
@@ -52,6 +54,7 @@ function buildParameters(gui) {
   paramsFolder.add(parameters, "evaporation", 0, 0.5).name("Evaporation Speed");
   paramsFolder.add(parameters, "minSlope", 0.0001, 0.1).name("Min Slope");
   paramsFolder.add(parameters, "blur", 0, 1).name("Blur");
+  paramsFolder.add(parameters, "steps", 1, 256, 1).name("Max Steps");
   paramsFolder.open();
   folders.push(paramsFolder);
 

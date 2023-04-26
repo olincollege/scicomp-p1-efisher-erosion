@@ -1,4 +1,5 @@
 import {
+  buildComputeShaders,
   stepComputeShaders,
   resetComputeShaders,
 } from "./shaders/computeShaders/shaders";
@@ -8,6 +9,7 @@ const status = { running: false, step: 0 };
 let display;
 
 function start() {
+  buildComputeShaders();
   status.running = true;
 }
 

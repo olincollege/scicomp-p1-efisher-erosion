@@ -12,13 +12,17 @@ import { WaterShader } from "./waterShader";
 import { SedimentShader } from "./sedShader";
 
 const shaders = {};
-let meshes, maxSteps;
+let renderer, params, meshes;
 
-function buildComputeShaders(renderer, params, meshes_) {
+function initComputeShaders(renderer_, params_, meshes_) {
+  renderer = renderer_;
+  params = params_;
+  meshes = meshes_;
+}
+
+function buildComputeShaders() {
   const n = params.droplets;
   const size = params.mapSize;
-  meshes = meshes_;
-  maxSteps = params.steps;
 
   const data = new Float32Array(n * 4);
   params.emptyTexture = new THREE.DataTexture(
@@ -48,7 +52,7 @@ function buildComputeShaders(renderer, params, meshes_) {
 }
 
 function stepComputeShaders(step) {
-  if (step % maxSteps == 0) {
+  if (step % params.steps == 0) {
     resetComputeShaders();
   }
 
@@ -74,4 +78,9 @@ function resetComputeShaders() {
   });
 }
 
-export { buildComputeShaders, stepComputeShaders, resetComputeShaders };
+export {
+  initComputeShaders,
+  buildComputeShaders,
+  stepComputeShaders,
+  resetComputeShaders,
+};
