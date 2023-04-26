@@ -31,7 +31,7 @@ function step() {
   if (!status.running) {
     return;
   }
-  stepComputeShaders();
+  stepComputeShaders(status.step);
   status.step += 1;
 }
 

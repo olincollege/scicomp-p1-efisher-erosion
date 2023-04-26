@@ -44,7 +44,7 @@ function init() {
 
   const meshes = buildMeshes(scene, settings);
   settings.params.meshes = meshes;
-  const shaders = buildComputeShaders(renderer, settings.params);
+  const shaders = buildComputeShaders(renderer, settings.params, meshes);
 
   buildListerners(scene, camera, renderer);
 

@@ -51,9 +51,6 @@ class DirectionShader extends ComputeShader {
   setUniforms(uniforms, params, shaders) {
     uniforms.hMap.value = shaders.hMap.newFrame();
     uniforms.pos.value = shaders.pos.newFrame();
-    uniforms.mapSize.value = params.mapSize;
-    uniforms.inertia.value = params.inertia;
-    this.params.meshes.plane.material.uniforms.hMap.value = this.newFrame();
   }
 
   shader() {

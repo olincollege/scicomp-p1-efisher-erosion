@@ -16,9 +16,7 @@ class WaterShader extends ComputeShader {
     uniforms["evaporation"] = { value: null };
   }
 
-  setUniforms(uniforms, params, shaders) {
-    uniforms.evaporation.value = params.evaporation;
-  }
+  setUniforms(uniforms, params, shaders) {}
 
   shader() {
     return shader;

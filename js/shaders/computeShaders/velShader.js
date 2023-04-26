@@ -23,8 +23,6 @@ class VelocityShader extends ComputeShader {
 
   setUniforms(uniforms, params, shaders) {
     uniforms.hDiff.value = shaders.hDiff.newFrame();
-    uniforms.gravity.value = params.gravity;
-    // this.params.meshes.plane.material.uniforms.hMap.value = this.newFrame();
   }
 
   shader() {

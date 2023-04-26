@@ -12,10 +12,13 @@ import { WaterShader } from "./waterShader";
 import { SedimentShader } from "./sedShader";
 
 const shaders = {};
+let meshes, maxSteps;
 
-function buildComputeShaders(renderer, params) {
+function buildComputeShaders(renderer, params, meshes_) {
   const n = params.droplets;
   const size = params.mapSize;
+  meshes = meshes_;
+  maxSteps = params.steps;
 
   const data = new Float32Array(n * 4);
   params.emptyTexture = new THREE.DataTexture(
@@ -32,7 +35,6 @@ function buildComputeShaders(renderer, params) {
   shaders.hDiff = new HeightDifferenceShader(n, 1, renderer, params, shaders);
 
   shaders.sed = new SedimentShader(n, 1, renderer, params, shaders);
-  shaders.dep = new DepositionShader(n, size, renderer, params);
   shaders.hMap = new HeightMapShader(size, size, renderer, params, shaders);
 
   shaders.water = new WaterShader(n, 1, renderer, params, shaders);
@@ -45,21 +47,29 @@ function buildComputeShaders(renderer, params) {
   return shaders;
 }
 
-function stepComputeShaders() {
+function stepComputeShaders(step) {
+  if (step % maxSteps == 0) {
+    resetComputeShaders();
+  }
+
   shaders.dir.render();
   shaders.pos.render();
   shaders.hDiff.render();
 
   shaders.sed.render();
-  shaders.dep.render();
   shaders.hMap.render();
 
   shaders.water.render();
   shaders.vel.render();
+
+  meshes.plane.material.uniforms.hMap.value = shaders.hMap.newFrame();
 }
 
 function resetComputeShaders() {
-  Object.values(shaders).forEach((shader) => {
+  Object.entries(shaders).forEach(([name, shader]) => {
+    if (name == "hMap") {
+      return;
+    }
     shader.reset();
   });
 }

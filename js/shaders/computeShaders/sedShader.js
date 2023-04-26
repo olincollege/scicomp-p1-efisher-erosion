@@ -13,16 +13,16 @@ uniform float erosion;
 void main() {
   vec2 uv = gl_FragCoord.xy / resolution.xy;
 
-  float hDiff = sampler2D(hDiff, uv).x;
-  float water = sampler2D(water, uv).x;
-  float vel = sampler2D(vel, uv).x;
+  float hDiff = texture2D(hDiff, uv).x;
+  float water = texture2D(water, uv).x;
+  float vel = texture2D(vel, uv).x;
 
   float newCapacity = max(-hDiff, minSlope) * vel * water * capacity;
 
-  float oldSediment = sampler2D(lastFrame, uv).x;
+  float oldSediment = texture2D(lastFrame, uv).x;
   float delta;
   if (oldSediment >= newCapacity) {
-    delta = (oldSediment - newCapacity) * deposition;
+    delta = -(oldSediment - newCapacity) * deposition;
   } else {
     delta = min((newCapacity - oldSediment) * erosion, -hDiff);
   }
@@ -48,11 +48,10 @@ class SedimentShader extends ComputeShader {
     uniforms.hDiff.value = shaders.hDiff.newFrame();
     uniforms.vel.value = shaders.vel.newFrame();
     uniforms.water.value = shaders.water.newFrame();
+  }
 
-    uniforms.minSlope.value = params.minSlope;
-    uniforms.capacity.value = params.capacity;
-    uniforms.deposition.value = params.deposition;
-    uniforms.erosion.value = params.erosion;
+  shader() {
+    return shader;
   }
 
   fill(texture, params) {

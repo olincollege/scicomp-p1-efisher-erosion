@@ -30,7 +30,6 @@ class HeightDifferenceShader extends ComputeShader {
     uniforms.hMap.value = shaders.hMap.newFrame();
     uniforms.oldPos.value = shaders.pos.oldFrame();
     uniforms.newPos.value = shaders.pos.newFrame();
-    uniforms.mapSize.value = params.mapSize;
   }
 
   shader() {

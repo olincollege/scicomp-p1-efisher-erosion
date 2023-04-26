@@ -48,6 +48,7 @@ function updateTerrain(settings) {
 
 function buildTerrain(settings) {
   const geometry = new THREE.PlaneGeometry(1, 1, SIZE, SIZE);
+  console.log(geometry);
   const data = new Float32Array(SIZE * SIZE * 4);
   heightMap = new THREE.DataTexture(
     data,

@@ -12,7 +12,11 @@ export default class ComputeShader {
     this.texture = this.c.createTexture();
     this.fill(this.texture, this.params);
 
-    const variable = this.c.addVariable("lastFrame", this.shader(), texture);
+    const variable = this.c.addVariable(
+      "lastFrame",
+      this.shader(),
+      this.texture
+    );
     this.c.setVariableDependencies(variable, [variable]);
 
     this.initUniforms(variable.material.uniforms, this.params, this.shaders);

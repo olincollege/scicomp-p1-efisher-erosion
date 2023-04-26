@@ -28,9 +28,9 @@ function buildTerrain(gui) {
 
 function buildParameters(gui) {
   const parameters = {
-    droplets: 16,
+    droplets: 4096,
     mapSize: 512,
-    inertia: 0.1,
+    inertia: 0.5,
     capacity: 8,
     deposition: 0.1,
     erosion: 0.1,
