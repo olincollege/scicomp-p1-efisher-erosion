@@ -17,7 +17,7 @@ void main() {
   float oldSediment = texture2D(lastFrame, uv).x;
 
   if (hDiff > 0.0) {
-    float newSediment = oldSediment * (1.0 - erosion);
+    float newSediment = oldSediment * (1.0 - deposition);
     gl_FragColor = vec4(newSediment, 0.0, 0.0, 1.0);
     return;
   }

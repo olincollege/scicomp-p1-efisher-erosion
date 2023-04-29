@@ -1,59 +1,43 @@
 import ComputeShader from "./shader";
 
 const shader = `
-uniform sampler2D pos;
-uniform sampler2D oldSed;
-uniform sampler2D newSed;
+uniform sampler2D hMapDiff;
 
 uniform float mapSize;
-uniform float droplets;
+uniform float blur;
 
 void main() {
   vec2 uv = gl_FragCoord.xy / resolution.xy;
 
   float currentHeight = texture2D(lastFrame, uv).x;
+  float diff = texture2D(hMapDiff, uv).x;
 
-  for (float i = 0.5; i < droplets + 1.0; i += 1.0) {
-    float particle = i / droplets;
-
-    vec2 particlePos = texture2D(pos, vec2(particle, 0.5)).xy;
-    vec2 pointPos = gl_FragCoord.xy;
-    float dist = distance(particlePos, pointPos);
-
-    if (dist >= 1.0) {
-      continue;
+  float s = 0.0;
+  for (float i = -2.0; i <= 2.0; i += 1.0) {
+    for (float j = -2.0; j <= 2.0; j += 1.0) {
+      vec2 newPos = vec2(gl_FragCoord.x + i, gl_FragCoord.y + j);
+      vec2 newUv = newPos / resolution.xy;
+      s += texture2D(hMapDiff, newUv).x;
     }
-
-    float particleOldSed = texture2D(oldSed, vec2(particle, 0.5)).x;
-    float particleNewSed = texture2D(newSed, vec2(particle, 0.5)).x;
-    float deltaSed = particleNewSed - particleOldSed;
-
-    float deltaX = abs(particlePos.x - pointPos.x);
-    float deltaY = abs(particlePos.y - pointPos.y);
-    float portion  = ((1.0 - deltaX) + (1.0 - deltaY)) / 4.0;
-    float deposition = deltaSed * portion;
-
-    currentHeight -= deposition;
   }
 
-  gl_FragColor = vec4(currentHeight, 0.0, 0.0, 1.0);
+  float avg = s / 9.0;
+  float blurredDiff = blur * avg + (1.0 - blur) * diff;
+
+  gl_FragColor = vec4(currentHeight + blurredDiff, 0.0, 0.0, 1.0);
 }
 `;
 
 class HeightMapShader extends ComputeShader {
   initUniforms(uniforms, params, shaders) {
-    uniforms["pos"] = { value: params.emptyTexture };
-    uniforms["oldSed"] = { value: params.emptyTexture };
-    uniforms["newSed"] = { value: params.emptyTexture };
+    uniforms["hMapDiff"] = { value: shaders.hMapDiff.newFrame() };
 
     uniforms["mapSize"] = { value: params.mapSize };
-    uniforms["droplets"] = { value: params.droplets };
+    uniforms["blur"] = { value: params.blur };
   }
 
   setUniforms(uniforms, params, shaders) {
-    uniforms.pos.value = shaders.pos.oldFrame();
-    uniforms.oldSed.value = shaders.sed.oldFrame();
-    uniforms.newSed.value = shaders.sed.newFrame();
+    uniforms.hMapDiff.value = shaders.hMapDiff.oldFrame();
   }
 
   shader() {

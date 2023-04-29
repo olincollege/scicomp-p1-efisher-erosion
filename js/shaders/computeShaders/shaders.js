@@ -6,6 +6,7 @@ import { DirectionShader } from "./dirShader";
 import { DepositionShader } from "./depShader";
 import { HeightDifferenceShader } from "./hDiffShader";
 import { HeightMapShader } from "./hMapShader";
+import { HeightMapDifferenceShader } from "./hMapDiffShader";
 import { PositionShader } from "./posShader";
 import { VelocityShader } from "./velShader";
 import { WaterShader } from "./waterShader";
@@ -39,6 +40,13 @@ function buildComputeShaders() {
   shaders.hDiff = new HeightDifferenceShader(n, 1, renderer, params, shaders);
 
   shaders.sed = new SedimentShader(n, 1, renderer, params, shaders);
+  shaders.hMapDiff = new HeightMapDifferenceShader(
+    size,
+    size,
+    renderer,
+    params,
+    shaders
+  );
   shaders.hMap = new HeightMapShader(size, size, renderer, params, shaders);
 
   shaders.water = new WaterShader(n, 1, renderer, params, shaders);
@@ -56,11 +64,13 @@ function stepComputeShaders(step) {
     resetComputeShaders();
   }
 
+  // Order matters - shaders are dependent on the results of others
   shaders.dir.render();
   shaders.pos.render();
   shaders.hDiff.render();
 
   shaders.sed.render();
+  shaders.hMapDiff.render();
   shaders.hMap.render();
 
   shaders.water.render();
