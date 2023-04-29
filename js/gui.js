@@ -37,7 +37,8 @@ function buildParameters(gui) {
     evaporation: 0.1,
     radius: 4,
     minSlope: 0.05,
-    blur: 0.1,
+    blurStrength: 0.5,
+    blurRadius: 2,
     gravity: 10,
     steps: 64,
   };
@@ -53,7 +54,8 @@ function buildParameters(gui) {
   paramsFolder.add(parameters, "radius", 1, 10).name("Erosion Radius");
   paramsFolder.add(parameters, "evaporation", 0, 0.5).name("Evaporation Speed");
   paramsFolder.add(parameters, "minSlope", 0.0001, 0.1).name("Min Slope");
-  paramsFolder.add(parameters, "blur", 0, 1).name("Blur");
+  paramsFolder.add(parameters, "blurStrength", 0, 1).name("Blur Strength");
+  paramsFolder.add(parameters, "blurRadius", 0, 5, 1).name("Blur Radius");
   paramsFolder.add(parameters, "steps", 1, 256, 1).name("Max Steps");
   paramsFolder.open();
   folders.push(paramsFolder);
