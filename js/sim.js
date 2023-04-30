@@ -29,6 +29,8 @@ function reset() {
   status.running = false;
   status.started = false;
   status.step = 0;
+  status.totalSteps = 0;
+  status.particles = 0;
   updateTerrain();
   resetComputeShaders();
 }

@@ -28,22 +28,17 @@ function updateTerrain(settings) {
     const idx = k / 4;
     const x = (idx % SIZE) + 1e-3;
     const y = Math.floor(idx / SIZE) + 1e-3;
-    let height =
-      noiseFunc(
-        x * settings["Frequency"],
-        y * settings["Frequency"],
-        settings["Seed"] / 50 + 0.5
-      ) * settings["Amplitude"];
     let amp = settings["Amplitude"];
-    for (let i = 1; i <= 2; i += 1) {
-      amp *= 0.01;
-      let factor = 20 ** i;
+    let height = 0;
+    for (let i = 0; i <= 3; i += 1) {
+      let factor = 2 ** i;
       height +=
         noiseFunc(
           x * (settings["Frequency"] * factor),
           y * (settings["Frequency"] * factor),
           settings["Seed"] / 50 + 0.5
-        ) * amp;
+        ) *
+        (amp / 4 ** i);
     }
 
     arr[k + 0] = Math.max(height, settings["Min"]);
