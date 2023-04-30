@@ -25,7 +25,7 @@ void main() {
   float water = texture2D(water, uv).x;
   float vel = texture2D(vel, uv).x;
 
-  float newCapacity = max(-hDiff, minSlope) * vel * water * capacity;
+  float newCapacity = max(-hDiff, minSlope) * water * capacity;
 
   float delta;
   if (oldSediment >= newCapacity) {

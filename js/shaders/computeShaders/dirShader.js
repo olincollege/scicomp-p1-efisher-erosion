@@ -8,6 +8,21 @@ uniform sampler2D pos;
 uniform float mapSize;
 uniform float inertia;
 
+float random(vec2 st) {
+    return fract(
+      sin(
+        dot(
+          st.xy,
+          vec2(12.9898,78.233)
+        )
+      ) * 43758.5453123
+    );
+}
+
+vec2 random2D(vec2 st) {
+  return vec2(random(st), random(st.yx));
+}
+
 void main() {
   vec2 uv = gl_FragCoord.xy / resolution.xy;
 
@@ -31,9 +46,13 @@ void main() {
     (topLeftHeight - bottomLeftHeight) * (1.0 - delta.x) +
     (topRightHeight - bottomRightHeight) * delta.x
   );
+  
+  if (dot(gradient, gradient) == 0.0) {
+    gradient = random2D(delta);
+  }
 
   vec2 oldDir = texture2D(lastFrame, uv).xy;
-  vec2 newDir = oldDir * inertia - gradient * (1.0 - inertia);
+  vec2 newDir = oldDir * inertia - (normalize(gradient) * (1.0 - inertia));
   newDir = normalize(newDir);
 
   gl_FragColor = vec4(newDir, 0.0, 1.0);

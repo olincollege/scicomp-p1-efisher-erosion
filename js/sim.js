@@ -5,11 +5,14 @@ import {
 } from "./shaders/computeShaders/shaders";
 import { updateTerrain } from "./meshes";
 
-const status = { running: false, step: 0 };
+const status = { started: false, running: false, step: 0 };
 let display;
 
 function start() {
-  buildComputeShaders();
+  if (!status.started) {
+    status.started = true;
+    buildComputeShaders();
+  }
   status.running = true;
 }
 
@@ -19,6 +22,7 @@ function stop() {
 
 function reset() {
   status.running = false;
+  status.started = false;
   status.step = 0;
   updateTerrain();
   resetComputeShaders();

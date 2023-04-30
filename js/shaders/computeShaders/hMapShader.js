@@ -14,15 +14,15 @@ void main() {
   float diff = texture2D(hMapDiff, uv).x;
 
   float s = 0.0;
-  for (float i = -blurRadius; i <= 2.0; i += 1.0) {
-    for (float j = -blurRadius; j <= 2.0; j += 1.0) {
+  for (float i = -blurRadius; i <= blurRadius; i += 1.0) {
+    for (float j = -blurRadius; j <= blurRadius; j += 1.0) {
       vec2 newPos = vec2(gl_FragCoord.x + i, gl_FragCoord.y + j);
       vec2 newUv = newPos / resolution.xy;
       s += texture2D(hMapDiff, newUv).x;
     }
   }
 
-  float avg = s / 9.0;
+  float avg = s / pow(blurRadius * 2.0 + 1.0, 2.0);
   float blurredDiff = blurStrength * avg + (1.0 - blurStrength) * diff;
 
   gl_FragColor = vec4(currentHeight + blurredDiff, 0.0, 0.0, 1.0);

@@ -36,6 +36,7 @@ export default class ComputeShader {
 
   reset() {
     this.fill(this.texture, this.params);
+    this.texture.needsUpdate = true;
     this.c.renderTexture(this.texture, this.v.renderTargets[0]);
     this.c.renderTexture(this.texture, this.v.renderTargets[1]);
   }

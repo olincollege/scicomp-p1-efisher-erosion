@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { MapControls } from "three/addons/controls/MapControls.js";
 
 import { buildGui } from "./gui";
 import { buildMeshes } from "./meshes";
@@ -15,13 +16,14 @@ function buildScene() {
     0.1,
     1000
   );
-  camera.position.z = 300;
+  camera.position.z = 1;
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  const controls = new OrbitControls(camera, renderer.domElement);
+  const controls = new MapControls(camera, renderer.domElement);
+  controls.screenSpacePanning = true;
 
   return { scene, camera, renderer, controls };
 }

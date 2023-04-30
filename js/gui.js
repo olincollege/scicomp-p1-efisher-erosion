@@ -8,15 +8,17 @@ const folders = [];
 function buildTerrain(gui) {
   const terrainSettings = {
     Seed: 42,
-    Size: 100,
-    Frequency: 0.01,
-    Amplitude: 8,
+    Size: 1,
+    Frequency: 0.005,
+    Amplitude: 0.15,
+    Min: -10,
   };
 
   const terrainFolder = gui.addFolder("Terrain");
   terrainFolder.add(terrainSettings, "Seed", 1, 100, 1);
-  terrainFolder.add(terrainSettings, "Frequency", 0.001, 0.1, 0.001);
-  terrainFolder.add(terrainSettings, "Amplitude", 1, 20, 1);
+  terrainFolder.add(terrainSettings, "Frequency", 0.001, 0.01);
+  terrainFolder.add(terrainSettings, "Amplitude", 0, 0.5);
+  // terrainFolder.add(terrainSettings, "Min", -0.5, 0);
   terrainFolder.open();
   terrainFolder.onChange((event) => {
     update(event.object);
@@ -30,15 +32,15 @@ function buildParameters(gui) {
   const parameters = {
     droplets: 1024,
     mapSize: 512,
-    inertia: 0.3,
+    inertia: 0.7,
     capacity: 8,
     deposition: 0.1,
-    erosion: 0.1,
+    erosion: 0.7,
     evaporation: 0.1,
     radius: 4,
     minSlope: 0.05,
     blurStrength: 0.5,
-    blurRadius: 2,
+    blurRadius: 5,
     gravity: 10,
     steps: 64,
   };
@@ -47,7 +49,7 @@ function buildParameters(gui) {
   paramsFolder
     .add(parameters, "droplets", 1, 4096, 1)
     .name("Number of Droplets");
-  paramsFolder.add(parameters, "inertia", 0, 1).name("Inertia");
+  paramsFolder.add(parameters, "inertia", 0.6, 1).name("Inertia");
   paramsFolder.add(parameters, "capacity", 1, 50).name("Carry Capacity");
   paramsFolder.add(parameters, "deposition", 0, 1).name("Deposition Speed");
   paramsFolder.add(parameters, "erosion", 0, 1).name("Erosion Speed");

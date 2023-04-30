@@ -26,22 +26,35 @@ function updateTerrain(settings) {
   const noiseFunc = createNoise3D(alea(42));
   for (let k = 0; k < arr.length; k += 4) {
     const idx = k / 4;
-    const x = idx % SIZE;
-    const y = Math.floor(idx / SIZE);
-    const height =
+    const x = (idx % SIZE) + 1e-3;
+    const y = Math.floor(idx / SIZE) + 1e-3;
+    let height =
       noiseFunc(
         x * settings["Frequency"],
         y * settings["Frequency"],
         settings["Seed"] / 50 + 0.5
       ) * settings["Amplitude"];
+    let amp = settings["Amplitude"];
+    for (let i = 1; i <= 4; i += 1) {
+      amp *= 0.02;
+      let factor = 10 ** i;
+      height +=
+        noiseFunc(
+          x * (settings["Frequency"] * factor),
+          y * (settings["Frequency"] * factor),
+          settings["Seed"] / 50 + 0.5
+        ) * amp;
+    }
 
-    arr[k + 0] = height;
+    arr[k + 0] = Math.max(height, settings["Min"]);
     arr[k + 1] = 0;
     arr[k + 2] = 0;
     arr[k + 3] = 0;
   }
   heightMap.needsUpdate = true;
   meshes.plane.material.uniforms.hMap.value = heightMap;
+  meshes.plane.material.uniforms.amplitude.value = settings["Amplitude"];
+  meshes.plane.material.uniforms.floor.value = settings["Min"];
 
   terrainSettings = { ...settings };
 }
@@ -62,14 +75,11 @@ function buildTerrain(settings) {
     uniforms: {
       hMap: { value: heightMap },
       amplitude: { value: settings["Amplitude"] },
+      floor: { value: settings["Min"] },
     },
     vertexShader,
     fragmentShader,
   });
-  // const material = new THREE.MeshBasicMaterial({
-  //   color: 0xffff00,
-  //   side: THREE.DoubleSide,
-  // });
   const plane = new THREE.Mesh(geometry, material);
   plane.scale.set(settings["Size"], settings["Size"]);
 

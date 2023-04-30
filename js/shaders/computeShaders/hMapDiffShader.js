@@ -13,10 +13,10 @@ void main() {
 
   float totalChange = 0.0;
 
-  for (float i = 0.5; i < droplets + 1.0; i += 1.0) {
+  for (float i = 0.0; i < droplets + 0.0; i += 1.0) {
     float particle = i / droplets;
 
-    vec2 particlePos = texture2D(pos, vec2(particle, 0.5)).xy;
+    vec2 particlePos = texture2D(pos, vec2(particle, 0.0)).xy;
     vec2 pointPos = gl_FragCoord.xy;
     float dist = distance(particlePos, pointPos);
 
@@ -24,8 +24,8 @@ void main() {
       continue;
     }
 
-    float particleOldSed = texture2D(oldSed, vec2(particle, 0.5)).x;
-    float particleNewSed = texture2D(newSed, vec2(particle, 0.5)).x;
+    float particleOldSed = texture2D(oldSed, vec2(particle, 0.0)).x;
+    float particleNewSed = texture2D(newSed, vec2(particle, 0.0)).x;
     float deltaSed = particleNewSed - particleOldSed;
 
     float deltaX = abs(particlePos.x - pointPos.x);

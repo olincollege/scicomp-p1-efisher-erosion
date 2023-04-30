@@ -32,7 +32,7 @@ class VelocityShader extends ComputeShader {
   fill(texture, params) {
     const arr = texture.image.data;
     for (let k = 0; k < arr.length; k += 4) {
-      arr[k + 0] = 0.0;
+      arr[k + 0] = 1.0;
       arr[k + 1] = 0.0;
       arr[k + 2] = 0.0;
       arr[k + 3] = 0.0;
