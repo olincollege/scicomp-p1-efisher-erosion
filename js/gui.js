@@ -100,7 +100,7 @@ function buildControls(gui) {
 }
 
 function buildDisplay() {
-  let display = new GUI({ autoPlace: false, title: "Display" });
+  let display = new GUI({ autoPlace: false, title: "Display", width: 300 });
 
   const element = document.createElement("div");
   element.appendChild(display.domElement);
@@ -110,10 +110,14 @@ function buildDisplay() {
   document.body.appendChild(element);
 
   const metadataFolder = display.addFolder("Metadata");
-  const controller = metadataFolder.add(status, "step");
-  controller.name("Step");
-  controller.disable();
-  controller.listen();
+  metadataFolder.add(status, "step").name("Step");
+  metadataFolder.add(status, "totalSteps").name("Total Droplet Steps");
+  metadataFolder.add(status, "particles").name("Total Simulated Particles");
+
+  metadataFolder.controllers.forEach((c) => {
+    c.disable();
+    c.listen();
+  });
 
   return display;
 }

@@ -59,11 +59,7 @@ function buildComputeShaders() {
   return shaders;
 }
 
-function stepComputeShaders(step) {
-  if (step % params.steps == 0) {
-    resetComputeShaders();
-  }
-
+function stepComputeShaders() {
   // Order matters - shaders are dependent on the results of others
   shaders.dir.render();
   shaders.pos.render();

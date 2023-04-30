@@ -35,9 +35,9 @@ function updateTerrain(settings) {
         settings["Seed"] / 50 + 0.5
       ) * settings["Amplitude"];
     let amp = settings["Amplitude"];
-    for (let i = 1; i <= 4; i += 1) {
-      amp *= 0.02;
-      let factor = 10 ** i;
+    for (let i = 1; i <= 2; i += 1) {
+      amp *= 0.01;
+      let factor = 20 ** i;
       height +=
         noiseFunc(
           x * (settings["Frequency"] * factor),

@@ -1,12 +1,17 @@
+import { updateTerrain } from "./meshes";
 import {
   buildComputeShaders,
-  stepComputeShaders,
   resetComputeShaders,
+  stepComputeShaders,
 } from "./shaders/computeShaders/shaders";
-import { updateTerrain } from "./meshes";
 
-const status = { started: false, running: false, step: 0 };
-let display;
+const status = {
+  started: false,
+  running: false,
+  step: 0,
+  totalSteps: 0,
+  particles: 0,
+};
 
 function start() {
   if (!status.started) {
@@ -33,12 +38,20 @@ function update(settings) {
   resetComputeShaders();
 }
 
-function step() {
+function step(params) {
   if (!status.running) {
     return;
   }
-  stepComputeShaders(status.step);
+
+  if (status.step % params.steps == 0) {
+    resetComputeShaders();
+    status.particles += params.droplets;
+  }
+
+  stepComputeShaders();
+
   status.step += 1;
+  status.totalSteps += params.droplets;
 }
 
 export { status, start, stop, reset, update, step };

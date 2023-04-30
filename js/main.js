@@ -65,7 +65,7 @@ function animate(c) {
   requestAnimationFrame(() => {
     animate(c);
   });
-  step();
+  step(c.settings.params);
   c.renderer.render(c.scene, c.camera);
 }
 
