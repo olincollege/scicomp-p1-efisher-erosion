@@ -9,18 +9,6 @@ const vec3 lightDirection = vec3(-0.5, -0.5, 1.0);
 
 const vec3 mountainColor = vec3(0.35, 0.22, 0.22);
 const vec3 grassColor = vec3(0.3, 0.65, 0.0);
-const vec3 peakColor = vec3(0.8, 0.8, 0.8);
-const vec3 sandColor = vec3(0.76, 0.7, 0.5);
-const vec3 waterColor = vec3(0.3, 0.7, 0.9);
-
-const float peakStart = 0.9;
-const float peakBlur = 0.2;
-const float mountainStart = 0.2;
-const float mountainBlur = 0.1;
-const float grassStart = 0.2;
-const float grassBlur = 0.05;
-const float sandStart = 0.1;
-const float sandBlur = 0.05;
 
 float random(vec2 st) {
     return fract(
@@ -41,17 +29,17 @@ void main() {
   float slope = abs(dot(up, bump.xyz));
 
   vec3 color;
-  if (slope > 0.75) {
+  if (slope > 0.8) {
     color = grassColor;
-  } else if (slope > 0.7) {
-    float perc = (slope - 0.7) / 0.05;
+  } else if (slope > 0.75) {
+    float perc = (slope - 0.75) / 0.05;
     color = mix(mountainColor, grassColor, min(perc, 1.0));
   } else {
     color = mountainColor;
   }
 
   float diffusion = dot(bump.xyz, lightDirection);
-  color *= max(diffusion, 0.2);
+  color *= max(diffusion, 0.0);
 
   gl_FragColor = vec4(color, 1.0);
 }

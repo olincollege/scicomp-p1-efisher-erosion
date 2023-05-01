@@ -7,33 +7,30 @@ uniform sampler2D newSed;
 
 uniform float mapSize;
 uniform float droplets;
+uniform float radius;
 
 void main() {
   vec2 uv = gl_FragCoord.xy / resolution.xy;
 
   float totalChange = 0.0;
 
-  for (float i = 0.0; i < droplets + 0.0; i += 1.0) {
+  for (float i = 0.0; i < droplets; i += 1.0) {
     float particle = i / droplets;
 
     vec2 particlePos = texture2D(pos, vec2(particle, 0.0)).xy;
     vec2 pointPos = gl_FragCoord.xy;
     float dist = distance(particlePos, pointPos);
 
-    if (dist >= 1.0) {
+    if (dist >= radius) {
       continue;
     }
 
     float particleOldSed = texture2D(oldSed, vec2(particle, 0.0)).x;
     float particleNewSed = texture2D(newSed, vec2(particle, 0.0)).x;
     float deltaSed = particleNewSed - particleOldSed;
+    float portion = ((radius - dist) / radius) / (pow(radius, 2.0));
 
-    float deltaX = abs(particlePos.x - pointPos.x);
-    float deltaY = abs(particlePos.y - pointPos.y);
-    float portion  = ((1.0 - deltaX) + (1.0 - deltaY)) / 4.0;
-    float deposition = deltaSed * portion;
-
-    totalChange -= deposition;
+    totalChange -= deltaSed * portion;
   }
 
   gl_FragColor = vec4(totalChange, 0.0, 0.0, 1.0);
@@ -48,6 +45,7 @@ class HeightMapDifferenceShader extends ComputeShader {
 
     uniforms["mapSize"] = { value: params.mapSize };
     uniforms["droplets"] = { value: params.droplets };
+    uniforms["radius"] = { value: params.radius };
   }
 
   setUniforms(uniforms, params, shaders) {

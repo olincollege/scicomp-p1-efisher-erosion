@@ -11,6 +11,8 @@ const status = {
   step: 0,
   totalSteps: 0,
   particles: 0,
+  dps: 0,
+  startTime: null,
 };
 
 function start() {
@@ -31,6 +33,7 @@ function reset() {
   status.step = 0;
   status.totalSteps = 0;
   status.particles = 0;
+  status.startTime = null;
   updateTerrain();
   resetComputeShaders();
 }
@@ -45,9 +48,13 @@ function step(params) {
     return;
   }
 
-  if (status.step % params.steps == 0) {
+  if (status.step % params.steps == 0 && params.steps != 0) {
     resetComputeShaders();
     status.particles += params.droplets;
+    status.dps = Math.round(
+      (params.droplets / (Date.now() - status.startTime)) * 100
+    );
+    status.startTime = Date.now();
   }
 
   stepComputeShaders();
