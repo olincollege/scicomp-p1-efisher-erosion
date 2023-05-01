@@ -5,7 +5,7 @@ import alea from "alea";
 import { fragmentShader } from "./shaders/fragmentShaders";
 import { vertexShader } from "./shaders/vertexShaders";
 
-const SIZE = 256;
+const SIZE = 1024;
 
 let scene;
 let heightMap;
