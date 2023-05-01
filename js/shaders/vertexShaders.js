@@ -4,7 +4,7 @@ uniform sampler2D hMap;
 out vec4 bump;
 out vec3 pos;
 
-const vec2 size = vec2(2.0 / 1024.0, 0.0);
+const vec2 size = vec2(2.0 / 256.0, 0.0);
 const ivec3 off = ivec3(-1, 0, 1);
 
 void main() {
