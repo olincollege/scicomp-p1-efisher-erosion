@@ -2,7 +2,7 @@
 
 A web-based hydrolic erosion simulation that runs in-browser. Created during the 2023 Scientific Computing course taught by [@nugent-lab](https://github.com/nugent-lab) at [@olincollege](https://www.olin.edu) and based off of this [paper](https://www.firespark.de/resources/downloads/implementation%20of%20a%20methode%20for%20hydraulic%20erosion.pdf). [Try it out!](https://olincollege.github.io/scicomp-p4-efisher-erosion/).
 
-![image](https://user-images.githubusercontent.com/26287286/235552107-32dea243-0bdb-45bc-a31a-190c73df29d5.png)
+https://user-images.githubusercontent.com/26287286/235573595-f49d8441-05b5-4697-a4b9-085e0f979c6f.mov
 
 ## Setup
 
