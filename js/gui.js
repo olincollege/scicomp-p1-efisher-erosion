@@ -36,7 +36,7 @@ function buildParameters(gui) {
     capacity: 8,
     deposition: 0.1,
     erosion: 0.3,
-    evaporation: 0.1,
+    evaporation: 0.02,
     radius: 3,
     minSlope: 0.05,
     blurStrength: 0.1,

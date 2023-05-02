@@ -13,7 +13,7 @@ void main() {
 
 class WaterShader extends ComputeShader {
   initUniforms(uniforms, params, shaders) {
-    uniforms["evaporation"] = { value: null };
+    uniforms["evaporation"] = { value: params.evaporation };
   }
 
   setUniforms(uniforms, params, shaders) {}
